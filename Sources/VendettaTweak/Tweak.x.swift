@@ -6,9 +6,9 @@ let vendettaLog = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "ven
 let source = URL(string: "vendetta")!
 
 let install_prefix = String(cString: get_install_prefix())
-let isJailbroken = FileManager.default.fileExists(atPath: "\(install_prefix)/Library/Application Support/VendettaTweak/VendettaPatches.bundle")
+let isJailbroken = FileManager.default.fileExists(atPath: "\(install_prefix)/Library/Application Support/VendettaTweak/RevengePatches.bundle")
 
-let vendettaPatchesBundlePath = isJailbroken ? "\(install_prefix)/Library/Application Support/VendettaTweak/VendettaPatches.bundle" : "\(Bundle.main.bundleURL.path)/VendettaPatches.bundle"
+let vendettaPatchesBundlePath = isJailbroken ? "\(install_prefix)/Library/Application Support/VendettaTweak/RevengePatches.bundle" : "\(Bundle.main.bundleURL.path)/VendettaPatches.bundle"
 
 class FileManagerLoadHook: ClassHook<FileManager> {
   func containerURLForSecurityApplicationGroupIdentifier(_ groupIdentifier: NSString?) -> URL? {
@@ -48,7 +48,7 @@ class LoadHook: ClassHook<RCTCxxBridge> {
 
     let documentDirectory = getDocumentDirectory()
 
-    var vendetta = try? Data(contentsOf: documentDirectory.appendingPathComponent("vendetta.js"))
+    var vendetta = try? Data(contentsOf: documentDirectory.appendingPathComponent("revenge.js"))
 
     let group = DispatchGroup()
 
@@ -61,10 +61,10 @@ class LoadHook: ClassHook<RCTCxxBridge> {
       vendettaUrl = loaderConfig.customLoadUrl.url
     } else {
       vendettaUrl = URL(
-        string: "https://raw.githubusercontent.com/vendetta-mod/builds/master/vendetta.js")!
+        string: "https://cdn.jsdelivr.net/gh/revenge-mod/builds@main/revenge.js")!
     }
 
-    os_log("Fetching vendetta.js", log: vendettaLog, type: .info)
+    os_log("Fetching revenge.js", log: vendettaLog, type: .info)
     var vendettaRequest = URLRequest(
       url: vendettaUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 3.0)
 
@@ -76,9 +76,9 @@ class LoadHook: ClassHook<RCTCxxBridge> {
 
     let vendettaTask = URLSession.shared.dataTask(with: vendettaRequest) { data, response, error in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-        os_log("Successfully fetched vendetta.js", log: vendettaLog, type: .debug)
+        os_log("Successfully fetched revenge.js", log: vendettaLog, type: .debug)
         vendetta = data
-        try? vendetta?.write(to: documentDirectory.appendingPathComponent("vendetta.js"))
+        try? vendetta?.write(to: documentDirectory.appendingPathComponent("revenge.js"))
 
         let etag = httpResponse.allHeaderFields["Etag"] as? String
         try? etag?.write(
@@ -103,10 +103,10 @@ class LoadHook: ClassHook<RCTCxxBridge> {
     }
 
     if vendetta != nil {
-      os_log("Executing vendetta.js", log: vendettaLog, type: .info)
+      os_log("Executing revenge.js", log: vendettaLog, type: .info)
       orig.executeApplicationScript(vendetta!, url: source, async: async)
     } else {
-      os_log("Unable to fetch vendetta.js", log: vendettaLog, type: .error)
+      os_log("Unable to fetch revenge.js", log: vendettaLog, type: .error)
     }
   }
 }

@@ -7,13 +7,13 @@ endif
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = VendettaTweak
+TWEAK_NAME = RevengeTweak
 
-VendettaTweak_FILES = $(shell find Sources/VendettaTweak -name '*.swift') $(shell find Sources/VendettaTweakC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
-VendettaTweak_SWIFTFLAGS = -ISources/VendettaTweakC/include
-VendettaTweak_CFLAGS = -fobjc-arc -ISources/VendettaTweakC/include
+RevengeTweak_FILES = $(shell find Sources/VendettaTweak -name '*.swift') $(shell find Sources/VendettaTweakC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
+RevengeTweak_SWIFTFLAGS = -ISources/VendettaTweakC/include
+RevengeTweak_CFLAGS = -fobjc-arc -ISources/VendettaTweakC/include
 
-VendettaTweak_BUNDLE_NAME = VendettaPatches
-VendettaTweak_BUNDLE_RESOURCE_DIRS = VendettaXposed/App/src/main/assets/js Resources
+RevengeTweak_BUNDLE_NAME = RevengePatches
+RevengeTweak_BUNDLE_RESOURCE_DIRS = RevengeXposed/App/src/main/assets/js Resources
 
 include $(THEOS_MAKE_PATH)/tweak.mk
