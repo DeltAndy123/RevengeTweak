@@ -58,14 +58,14 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            packages/*-arm.deb
-            packages/*-arm64.deb
+            ${{ github.workspace }}/packages/*-arm.deb
+            ${{ github.workspace }}/packages/*-arm64.deb
           tag_name: ${{ github.run_id }}
-          release_name: ${{ github.run_id }}
+          name: "Revenge"
           body: |
             This is an automated release.
             Built by ${{ matrix.os }}.
           draft: false
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
