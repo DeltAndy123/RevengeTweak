@@ -53,3 +53,19 @@ jobs:
         with:
           name: "Rootless package built by ${{ matrix.os }}"
           path: ${{ github.workspace }}/packages/*-arm64.deb
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            packages/*-arm.deb
+            packages/*-arm64.deb
+          tag_name: ${{ github.run_id }}
+          release_name: ${{ github.run_id }}
+          body: |
+            This is an automated release.
+            Built by ${{ matrix.os }}.
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
