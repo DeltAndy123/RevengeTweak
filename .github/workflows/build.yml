@@ -45,7 +45,6 @@ jobs:
 
       - name: Build rootless package
         run: |
-          rm -f packages/*
           make clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
       - name: Upload rootless package
@@ -60,11 +59,10 @@ jobs:
           files: |
             ${{ github.workspace }}/packages/*-arm.deb
             ${{ github.workspace }}/packages/*-arm64.deb
-          tag_name: ${{ github.run_id }}
-          name: "Revenge"
+          tag_name: nightly
+          name: "Revenge Nightly"
           body: |
-            This is an automated release.
-            Built by ${{ matrix.os }}.
+            These builds are automatically generated from the latest code on the main branch.
           draft: false
           prerelease: false
         env:
